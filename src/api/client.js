@@ -3,6 +3,7 @@ import { TOKEN_KEY } from "../constants/storage";
 import { ROUTES } from "../constants/routes";
 
 const UNAUTHORIZED = 401;
+const FORBIDDEN = 403;
 
 const client = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
@@ -27,7 +28,9 @@ client.interceptors.response.use(
   (response) => response,
   (error) => {
     const hadToken = localStorage.getItem(TOKEN_KEY);
-    if (error.response?.status === UNAUTHORIZED && hadToken) {
+    const isAuthRequest = error.config?.url?.startsWith("/api/auth/");
+    const status = error.response?.status;
+    if (!isAuthRequest && hadToken && (status === UNAUTHORIZED || status === FORBIDDEN)) {
       localStorage.removeItem(TOKEN_KEY);
       window.location.href = ROUTES.LOGIN;
     }
