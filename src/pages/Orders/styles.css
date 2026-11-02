@@ -51,6 +51,9 @@
 }
 .orders-card-header { display: flex; justify-content: space-between; align-items: center; gap: 0.5rem; }
 .orders-items { list-style: none; padding: 0; margin: 0.75rem 0; color: #4a5d53; }
+.orders-details { display: grid; grid-template-columns: auto 1fr; gap: 0.5rem 1rem; }
+.orders-details dt { font-weight: 600; }
+.orders-details dd { margin: 0; overflow-wrap: anywhere; }
 .orders-total { font-weight: 700; }
 .orders-badge {
   font-size: 0.8rem;
@@ -102,6 +105,7 @@
 .orders-status { text-align: center; }
 
 @media (max-width: 480px) {
+  .orders-details { grid-template-columns: 1fr; }
   .orders-header { align-items: stretch; flex-direction: column; }
   .orders-actions { flex-direction: column; align-items: stretch; }
   .orders-container { padding: 1.25rem 0.75rem; }

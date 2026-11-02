@@ -4,7 +4,9 @@ const STATUS_LABEL = {
   CANCELLED: "Cancelado",
 };
 
-export const OrderList = ({ orders, onCancel, cancellingId }) => {
+export const OrderList = ({ orders, onView, onCancel, onDelete, cancellingId, deletingId }) => {
+  const busy = cancellingId !== null || deletingId !== null;
+
   if (orders.length === 0) {
     return <p className="orders-status">No tenés pedidos todavía.</p>;
   }
@@ -28,17 +30,21 @@ export const OrderList = ({ orders, onCancel, cancellingId }) => {
             ))}
           </ul>
           <p className="orders-total">Total: ${order.totalAmount}</p>
-          {order.status === "CONFIRMED" && (
-            <div className="orders-actions">
+          <div className="orders-actions">
+            <button onClick={() => onView(order.id)} disabled={busy}>Ver detalle</button>
+            {order.status === "CONFIRMED" && (
               <button
                 className="orders-danger"
-                disabled={cancellingId !== null}
+                disabled={busy}
                 onClick={() => onCancel(order)}
               >
                 {cancellingId === order.id ? "Cancelando..." : "Cancelar pedido"}
               </button>
-            </div>
-          )}
+            )}
+            <button className="orders-danger" onClick={() => onDelete(order)} disabled={busy}>
+              {deletingId === order.id ? "Eliminando..." : "Eliminar"}
+            </button>
+          </div>
         </li>
       ))}
     </ul>
