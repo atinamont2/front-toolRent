@@ -1,23 +1,15 @@
-import { useState } from 'react'
-import heroImg from './assets/hero.png'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import './App.css'
-import TarjetaProducto from './TarjetaProducto'
-import productos from './Product.json'
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { ROUTES } from "./constants/routes";
+import { Home } from "./pages/Home";
 
 function App() {
-  
-return (
-    <div>
-      {productos.map((p) => (
-        <TarjetaProducto
-          key={p.name}
-          producto={p}
-        />
-      ))}
-    </div>
-  )
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path={ROUTES.HOME} element={<Home />} />
+      </Routes>
+    </BrowserRouter>
+  );
 }
 
-export default App
+export default App;

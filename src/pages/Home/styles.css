@@ -1,0 +1,39 @@
+.home-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+.home-header {
+  margin-bottom: 2rem;
+}
+
+.home-title {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #222222;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.home-status {
+  text-align: center;
+  padding: 2rem;
+  font-size: 1.1rem;
+  color: #666666;
+}
+
+.home-status-error {
+  text-align: center;
+  padding: 1rem;
+  background-color: #ffebee;
+  color: #c62828;
+  border-radius: 6px;
+  margin-bottom: 1.5rem;
+}
+
+.home-empty {
+  text-align: center;
+  padding: 3rem 1rem;
+  color: #777777;
+}
