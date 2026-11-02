@@ -4,6 +4,7 @@ import { ROUTES } from "./constants/routes";
 import { TOKEN_KEY } from "./constants/storage";
 import { Home } from "./pages/Home";
 import { Users } from "./pages/Users";
+import { Orders } from "./pages/Orders";
 import { Navbar } from "./components/Navbar";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 import { Login } from "./pages/Login";
@@ -69,6 +70,14 @@ function App() {
           element={
             <ProtectedRoute isAuthenticated={isAuthenticated}>
               <ProductDetail />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path={ROUTES.ORDERS}
+          element={
+            <ProtectedRoute isAuthenticated={isAuthenticated}>
+              <Orders />
             </ProtectedRoute>
           }
         />

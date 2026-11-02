@@ -9,6 +9,7 @@ export const Navbar = ({ isAuthenticated, onLogout }) => (
       <>
         <NavLink to={ROUTES.HOME} end>Productos</NavLink>
         <NavLink to={ROUTES.USERS}>Usuarios</NavLink>
+        <NavLink to={ROUTES.ORDERS}>Pedidos</NavLink>
         <button type="button" onClick={onLogout}>Cerrar sesión</button>
       </>
     ) : (
