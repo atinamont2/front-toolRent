@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { getProducts } from "../api/products";
+import { getErrorMessage } from "../api/errors";
 
 export const useProducts = () => {
   const [state, setState] = useState({
@@ -11,7 +12,6 @@ export const useProducts = () => {
   useEffect(() => {
     const fetchAll = async () => {
       setState({ products: [], loading: true, error: null });
-
       try {
         const data = await getProducts();
         setState({ products: data, loading: false, error: null });
@@ -19,7 +19,7 @@ export const useProducts = () => {
         setState({
           products: [],
           loading: false,
-          error: err.response?.data?.message || err.message || "Error al cargar los productos",
+          error: getErrorMessage(err, "Error al cargar los productos."),
         });
       }
     };

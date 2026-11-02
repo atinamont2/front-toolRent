@@ -1,16 +1,9 @@
 .search-bar-container {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
   width: 100%;
   max-width: 600px;
   margin: 0 auto 1.5rem auto;
-}
-
-.search-bar-label {
-  font-size: 0.95rem;
-  font-weight: 600;
-  color: #333333;
 }
 
 .search-bar-controls {

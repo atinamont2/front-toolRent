@@ -15,15 +15,13 @@ export const SearchBar = ({ onSearch }) => {
       onSubmit={handleSubmit}
       role="search"
     >
-      <label htmlFor="search-input" className="search-bar-label">
-        Buscador
-      </label>
       <div className="search-bar-controls">
         <input
           id="search-input"
           type="text"
           className="search-bar-input"
-          placeholder="Nombre o descripción"
+          placeholder="Nombre o descripción..."
+          aria-label="Buscar herramientas"
           value={query}
           onChange={e => setQuery(e.target.value)}
         />
