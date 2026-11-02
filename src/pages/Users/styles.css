@@ -1,0 +1,78 @@
+.users-container {
+  padding: 2rem 1rem;
+  text-align: left;
+  color: #263b30;
+  background: #f7faf8;
+  flex: 1;
+  color-scheme: light;
+}
+
+.users-header, .users-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.users-header { justify-content: space-between; margin-bottom: 1.5rem; }
+.users-header h1 { font-size: 1.8rem; color: #263b30; margin: 0; }
+.users-container h2 { color: #263b30; font-size: 1.2rem; overflow-wrap: anywhere; }
+.users-actions { margin-top: 1rem; }
+.users-container button {
+  padding: 0.65rem 1rem;
+  min-height: 44px;
+  border: 1px solid #2e6648;
+  border-radius: 6px;
+  background: #fff;
+  color: #2e6648;
+  cursor: pointer;
+  font: inherit;
+}
+.users-container button:hover { background: #e5efe9; }
+.users-container button.users-primary { background: #2e6648; color: #fff; }
+.users-container button.users-primary:hover { background: #24523a; }
+.users-container button.users-danger { color: #a02727; border-color: #a02727; }
+.users-container button:disabled { opacity: 0.6; cursor: wait; }
+.users-container :focus-visible { outline: 3px solid #3e8060; outline-offset: 3px; }
+.users-list {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 290px), 1fr));
+  gap: 1rem;
+}
+.users-card, .users-form {
+  background: #fff;
+  padding: 1.25rem;
+  border: 1px solid #d5e1d9;
+  border-radius: 6px;
+  min-width: 0;
+}
+.users-card p, .users-details dd { overflow-wrap: anywhere; }
+.users-form { max-width: 620px; }
+.users-form fieldset { border: 0; padding: 0; margin: 0; min-width: 0; }
+.users-form label { display: block; margin: 1rem 0 0.35rem; font-weight: 600; }
+.users-form input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.75rem;
+  border: 1px solid #9caaa2;
+  border-radius: 6px;
+  font: inherit;
+  background: #fff;
+  color: #263b30;
+}
+.users-form #user-password-help { margin-top: 0.5rem; font-size: 0.9rem; }
+.users-details dt { font-weight: 600; margin-top: 0.75rem; }
+.users-details dd { margin: 0; }
+.users-error, .users-success, .users-status { padding: 1rem; margin-bottom: 1rem; border-radius: 6px; }
+.users-error { background: #ffebee; color: #a02727; }
+.users-error button { margin-top: 0.75rem; }
+.users-success { background: #e5efe9; color: #24523a; }
+.users-status { text-align: center; }
+
+@media (max-width: 480px) {
+  .users-header { align-items: stretch; flex-direction: column; }
+  .users-actions { flex-direction: column; align-items: stretch; }
+  .users-container { padding: 1.25rem 0.75rem; }
+}
