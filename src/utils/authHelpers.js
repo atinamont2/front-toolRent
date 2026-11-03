@@ -15,6 +15,21 @@ export const getUserFromToken = () => {
 
 export const isAdmin = () => {
   const user = getUserFromToken();
-  if (!user || !user.roles) return false;
-  return user.roles.includes("ROLE_ADMIN");
+  if (!user) return false;
+
+  const roles = user.roles || user.role || user.authorities;
+  if (!roles) return false;
+
+  if (Array.isArray(roles)) {
+    return roles.some((r) => {
+      const val = typeof r === "object" ? r.authority : r;
+      return val === "ROLE_ADMIN" || val === "ADMIN";
+    });
+  }
+
+  if (typeof roles === "string") {
+    return roles === "ROLE_ADMIN" || roles === "ADMIN";
+  }
+
+  return false;
 };

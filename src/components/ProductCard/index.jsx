@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import "./styles.css";
 
-export const ProductCard = ({ product }) => {
+export const ProductCard = ({ product, onDelete, isDeleting }) => {
   const isAvailable = Boolean(product.isAvailable ?? product.disponible);
   const name = product.name || product.nombre;
   const description = product.description || product.descripcion;
@@ -26,9 +26,21 @@ export const ProductCard = ({ product }) => {
         <p className="product-card-price">
           ${Number(price).toLocaleString("es-AR")}
         </p>
-        <Link to={`/products/${product.id}`} className="product-card-link">
-          Ver detalle
-        </Link>
+
+        {onDelete ? (
+          <button
+            type="button"
+            className="product-card-delete-btn"
+            disabled={isDeleting}
+            onClick={() => onDelete(product.id)}
+          >
+            {isDeleting ? "Eliminando..." : "Eliminar"}
+          </button>
+        ) : (
+          <Link to={`/products/${product.id}`} className="product-card-link">
+            Ver detalle
+          </Link>
+        )}
       </footer>
     </article>
   );

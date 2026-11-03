@@ -16,6 +16,7 @@ export const Navbar = ({ isAuthenticated, onLogout }) => {
           </NavLink>
           {userIsAdmin && <NavLink to={ROUTES.USERS}>Usuarios</NavLink>}
           <NavLink to={ROUTES.ORDERS}>Pedidos</NavLink>
+          <NavLink to={ROUTES.PROFILE}>Mi perfil</NavLink>
           <button type="button" onClick={onLogout}>
             Cerrar sesión
           </button>

@@ -6,6 +6,7 @@ import { Home } from "./pages/Home";
 import { Users } from "./pages/Users";
 import { Orders } from "./pages/Orders";
 import { ProductDetail } from "./pages/ProductDetail";
+import { Profile } from "./pages/Profile";
 import { Navbar } from "./components/Navbar";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 import { Login } from "./pages/Login";
@@ -72,6 +73,14 @@ function App() {
           element={
             <ProtectedRoute isAuthenticated={isAuthenticated}>
               <Orders />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path={ROUTES.PROFILE}
+          element={
+            <ProtectedRoute isAuthenticated={isAuthenticated}>
+              <Profile />
             </ProtectedRoute>
           }
         />
