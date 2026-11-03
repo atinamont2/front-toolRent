@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import { searchProducts } from "../api/products";
+import { getErrorMessage } from "../api/errors";
+
 
 export const useSearchProducts = (query) => {
   const [state, setState] = useState({
@@ -25,7 +27,7 @@ export const useSearchProducts = (query) => {
         setState({
           results: [],
           loading: false,
-          error: err.response?.data?.message || err.message || "Error al buscar productos",
+          error: getErrorMessage(err, "Error al buscar productos."),
         });
       }
     };

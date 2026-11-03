@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { SearchBar } from "../../components/SearchBar";
+import { ProductGrid } from "../../components/ProductGrid";
 import { useProducts } from "../../hooks/useProducts";
 import { useSearchProducts } from "../../hooks/useSearchProducts";
 import "./styles.css";
@@ -38,21 +39,18 @@ export const Home = () => {
         <SearchBar onSearch={handleSearch} />
       </header>
 
-      {/* Renderizado condicional de Error */}
       {currentError && (
-        <div className="home-status-error">
+        <div className="home-status-error" role="alert">
           <p>{currentError}</p>
         </div>
       )}
 
-      {/* Renderizado condicional de Loading */}
       {isLoading && (
-        <div className="home-status">
+        <div className="home-status" role="status">
           <p>Cargando herramientas...</p>
         </div>
       )}
 
-      {/* Renderizado de la lista o mensaje de vacío */}
       {!isLoading && !currentError && (
         <>
           {productsToDisplay.length === 0 ? (
@@ -60,12 +58,7 @@ export const Home = () => {
               <p>No se encontraron productos disponibles.</p>
             </div>
           ) : (
-            <div>
-              {/* grilla de productos o las cards */}
-              <p style={{ color: "#666", marginBottom: "1rem" }}>
-                Mostrando {productsToDisplay.length} producto(s)
-              </p>
-            </div>
+            <ProductGrid products={productsToDisplay} />
           )}
         </>
       )}
