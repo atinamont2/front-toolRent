@@ -5,4 +5,5 @@ export const ROUTES = {
   LOGIN: "/login",
   REGISTER: "/register",
   PRODUCT_DETAIL: "/products/:id",
+  PROFILE: "/profile",
 };

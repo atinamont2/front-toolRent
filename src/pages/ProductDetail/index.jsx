@@ -1,6 +1,10 @@
 import { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useProduct } from "../../hooks/useProduct";
+import { createOrder } from "../../api/orders";
+import { getErrorMessage } from "../../api/errors";
+import { ROUTES } from "../../constants/routes";
+import { RentalForm } from "../../components/RentalForm";
 import "./styles.css";
 
 export const ProductDetail = () => {
@@ -8,8 +12,8 @@ export const ProductDetail = () => {
   const navigate = useNavigate();
   const { product, loading, error } = useProduct(id);
 
-  const [startDate, setStartDate] = useState("");
-  const [endDate, setEndDate] = useState("");
+  const [submitting, setSubmitting] = useState(false);
+  const [actionError, setActionError] = useState(null);
 
   if (loading) {
     return (
@@ -40,41 +44,40 @@ export const ProductDetail = () => {
   const price = Number(product.price || product.precio || 0);
   const address = product.address || product.direccion;
 
-  // Cálculo de días y monto total estimado
-  let totalDays = 0;
-  if (startDate && endDate) {
-    const start = new Date(startDate);
-    const end = new Date(endDate);
-    const diffTime = end.getTime() - start.getTime();
-    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1; // Incluye el día inicial
-    if (diffDays > 0) {
-      totalDays = diffDays;
+  const handleRentalSubmit = async ({ startDate, endDate }) => {
+    setSubmitting(true);
+    setActionError(null);
+
+    try {
+      await createOrder({
+        startDate,
+        endDate,
+        items: [
+          {
+            productId: Number(product.id),
+            quantity: 1,
+          },
+        ],
+      });
+      navigate(ROUTES.ORDERS);
+    } catch (err) {
+      setActionError(getErrorMessage(err, "No se pudo confirmar el alquiler."));
+    } finally {
+      setSubmitting(false);
     }
-  }
-
-  const totalPrice = totalDays * price;
-  const canRent = isAvailable && totalDays > 0;
-
-  const handleRent = e => {
-    e.preventDefault();
-    if (!canRent) return;
-    // Lógica para avanzar al checkout/alquiler
-    console.log("Iniciando alquiler:", {
-      productId: product.id,
-      startDate,
-      endDate,
-      totalDays,
-      totalPrice,
-    });
   };
-
-  const todayStr = new Date().toISOString().split("T")[0];
 
   return (
     <main className="product-detail-container">
       <button type="button" className="btn-back" onClick={() => navigate(-1)}>
         ← Volver
       </button>
+
+      {actionError && (
+        <div className="home-status-error" role="alert">
+          <p>{actionError}</p>
+        </div>
+      )}
 
       <article className="product-detail-card">
         <header className="product-detail-header">
@@ -97,60 +100,12 @@ export const ProductDetail = () => {
           </div>
         </section>
 
-        <section className="rental-section">
-          <h2>Alquilar esta herramienta</h2>
-          {isAvailable ? (
-            <form className="rental-form" onSubmit={handleRent}>
-              <div className="rental-dates">
-                <div className="rental-field">
-                  <label htmlFor="start-date">Fecha de inicio</label>
-                  <input
-                    id="start-date"
-                    type="date"
-                    min={todayStr}
-                    value={startDate}
-                    onChange={e => setStartDate(e.target.value)}
-                    required
-                  />
-                </div>
-
-                <div className="rental-field">
-                  <label htmlFor="end-date">Fecha de fin</label>
-                  <input
-                    id="end-date"
-                    type="date"
-                    min={startDate || todayStr}
-                    value={endDate}
-                    onChange={e => setEndDate(e.target.value)}
-                    required
-                  />
-                </div>
-              </div>
-
-              {totalDays > 0 && (
-                <div className="rental-summary">
-                  <p>
-                    Días seleccionados: <strong>{totalDays}</strong>
-                  </p>
-                  <p className="total-price">
-                    Total estimado: ${totalPrice.toLocaleString("es-AR")}
-                  </p>
-                </div>
-              )}
-
-              <button type="submit" className="btn-rent" disabled={!canRent}>
-                {canRent
-                  ? "Continuar con el alquiler"
-                  : "Seleccioná las fechas"}
-              </button>
-            </form>
-          ) : (
-            <p className="rental-unavailable-msg">
-              Esta herramienta se encuentra actualmente alquilada o fuera de
-              servicio.
-            </p>
-          )}
-        </section>
+        <RentalForm
+          price={price}
+          isAvailable={isAvailable}
+          onSubmit={handleRentalSubmit}
+          submitting={submitting}
+        />
       </article>
     </main>
   );

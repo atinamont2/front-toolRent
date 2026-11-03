@@ -76,8 +76,36 @@
   border: 1px solid #2e6648;
   border-radius: 6px;
   transition: background-color 0.2s ease;
+  display: inline-block;
+  text-align: center;
 }
 
 .product-card-link:hover {
   background-color: #e5efe9;
+}
+
+.product-card-delete-btn {
+  color: #a02727;
+  font-weight: 600;
+  font-size: 0.95rem;
+  font-family: inherit;
+  padding: 0.4rem 0.6rem;
+  background-color: transparent;
+  border: 1px solid #a02727;
+  border-radius: 6px;
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
+  display: inline-block;
+  text-align: center;
+}
+
+.product-card-delete-btn:hover:not(:disabled) {
+  background-color: #ffebee;
+}
+
+.product-card-delete-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }

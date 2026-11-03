@@ -5,15 +5,18 @@ import { TOKEN_KEY } from "./constants/storage";
 import { Home } from "./pages/Home";
 import { Users } from "./pages/Users";
 import { Orders } from "./pages/Orders";
+import { ProductDetail } from "./pages/ProductDetail";
+import { Profile } from "./pages/Profile";
 import { Navbar } from "./components/Navbar";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 import { Login } from "./pages/Login";
 import { Register } from "./pages/Register";
-import { ProductDetail } from "./pages/ProductDetail";
+import { isAdmin } from "./utils/authHelpers";
 
 function App() {
   const [token, setToken] = useState(() => localStorage.getItem(TOKEN_KEY));
   const isAuthenticated = Boolean(token);
+  const userIsAdmin = isAuthenticated && isAdmin();
 
   const handleLogin = newToken => {
     localStorage.setItem(TOKEN_KEY, newToken);
@@ -33,7 +36,7 @@ function App() {
           path={ROUTES.LOGIN}
           element={
             isAuthenticated ? (
-              <Navigate to={ROUTES.USERS} replace />
+              <Navigate to={ROUTES.HOME} replace />
             ) : (
               <Login onLogin={handleLogin} />
             )
@@ -43,7 +46,7 @@ function App() {
           path={ROUTES.REGISTER}
           element={
             isAuthenticated ? (
-              <Navigate to={ROUTES.USERS} replace />
+              <Navigate to={ROUTES.HOME} replace />
             ) : (
               <Register />
             )
@@ -54,14 +57,6 @@ function App() {
           element={
             <ProtectedRoute isAuthenticated={isAuthenticated}>
               <Home />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path={ROUTES.USERS}
-          element={
-            <ProtectedRoute isAuthenticated={isAuthenticated}>
-              <Users />
             </ProtectedRoute>
           }
         />
@@ -78,6 +73,22 @@ function App() {
           element={
             <ProtectedRoute isAuthenticated={isAuthenticated}>
               <Orders />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path={ROUTES.PROFILE}
+          element={
+            <ProtectedRoute isAuthenticated={isAuthenticated}>
+              <Profile />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path={ROUTES.USERS}
+          element={
+            <ProtectedRoute isAuthenticated={isAuthenticated}>
+              {userIsAdmin ? <Users /> : <Navigate to={ROUTES.HOME} replace />}
             </ProtectedRoute>
           }
         />

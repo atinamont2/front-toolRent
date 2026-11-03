@@ -1,22 +1,32 @@
 import { NavLink } from "react-router-dom";
 import { ROUTES } from "../../constants/routes";
+import { isAdmin } from "../../utils/authHelpers";
 import "./styles.css";
 
-export const Navbar = ({ isAuthenticated, onLogout }) => (
-  <nav className="navbar" aria-label="Navegación principal">
-    <span className="navbar-brand">ToolRent</span>
-    {isAuthenticated ? (
-      <>
-        <NavLink to={ROUTES.HOME} end>Productos</NavLink>
-        <NavLink to={ROUTES.USERS}>Usuarios</NavLink>
-        <NavLink to={ROUTES.ORDERS}>Pedidos</NavLink>
-        <button type="button" onClick={onLogout}>Cerrar sesión</button>
-      </>
-    ) : (
-      <>
-        <NavLink to={ROUTES.LOGIN}>Iniciar sesión</NavLink>
-        <NavLink to={ROUTES.REGISTER}>Registrarse</NavLink>
-      </>
-    )}
-  </nav>
-);
+export const Navbar = ({ isAuthenticated, onLogout }) => {
+  const userIsAdmin = isAuthenticated && isAdmin();
+
+  return (
+    <nav className="navbar" aria-label="Navegación principal">
+      <span className="navbar-brand">ToolRent</span>
+      {isAuthenticated ? (
+        <>
+          <NavLink to={ROUTES.HOME} end>
+            Productos
+          </NavLink>
+          {userIsAdmin && <NavLink to={ROUTES.USERS}>Usuarios</NavLink>}
+          <NavLink to={ROUTES.ORDERS}>Pedidos</NavLink>
+          <NavLink to={ROUTES.PROFILE}>Mi perfil</NavLink>
+          <button type="button" onClick={onLogout}>
+            Cerrar sesión
+          </button>
+        </>
+      ) : (
+        <>
+          <NavLink to={ROUTES.LOGIN}>Iniciar sesión</NavLink>
+          <NavLink to={ROUTES.REGISTER}>Registrarse</NavLink>
+        </>
+      )}
+    </nav>
+  );
+};
